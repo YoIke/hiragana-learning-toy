@@ -32,9 +32,9 @@ const hiraganaData = [
     // Row 4: な行
     { char: 'な', word: 'なす', emoji: '🍆', row: 'na-row', rowIdx: 4, col: 0 },
     { char: 'に', word: 'にわとり', emoji: '🐔', row: 'na-row', rowIdx: 4, col: 1 },
-    { char: 'ぬ', word: 'ぬりえ', emoji: '🎨', row: 'na-row', col: 4, col: 2 },
-    { char: 'ね', word: 'ねこ', emoji: '🐱', row: 'na-row', col: 4, col: 3 },
-    { char: 'の', word: 'のりもの', emoji: '🚗', row: 'na-row', col: 4, col: 4 },
+    { char: 'ぬ', word: 'ぬりえ', emoji: '🎨', row: 'na-row', rowIdx: 4, col: 2 },
+    { char: 'ね', word: 'ねこ', emoji: '🐱', row: 'na-row', rowIdx: 4, col: 3 },
+    { char: 'の', word: 'のりもの', emoji: '🚗', row: 'na-row', rowIdx: 4, col: 4 },
 
     // Row 5: は行
     { char: 'は', word: 'はな', emoji: '🌸', row: 'ha-row', rowIdx: 5, col: 0 },
