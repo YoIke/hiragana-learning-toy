@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ひらがなであそぼう！ - たのしいひらがな学習ツール</title>
+    <meta name="description" content="濁点のない、きれいなひらがな（清音）を、かわいいイラストと音声で楽しく学べる子供向けのウェブアプリです。">
+    <!-- Google Fonts: Rounded Mplus for a friendly kids look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header area -->
+        <header class="app-header">
+            <h1 class="app-title" id="app-title">
+                <span class="char-title-1">ひ</span>
+                <span class="char-title-2">ら</span>
+                <span class="char-title-3">が</span>
+                <span class="char-title-4">な</span>
+                <span class="char-title-5">で</span>
+                <span class="char-title-6">あ</span>
+                <span class="char-title-7">そ</span>
+                <span class="char-title-8">ぼ</span>
+                <span class="char-title-9">う</span>
+                <span class="char-title-10">！</span>
+            </h1>
+            <p class="subtitle">おとと イラストで たのしく おべんきょうしよう！</p>
+            
+            <!-- Mode Switcher -->
+            <div class="mode-switcher" role="radiogroup" aria-label="モードせんたく">
+                <button id="btn-chart-mode" class="mode-btn active" role="radio" aria-checked="true">
+                    <span class="mode-icon">📖</span> ひらがな ひょう
+                </button>
+                <button id="btn-quiz-mode" class="mode-btn" role="radio" aria-checked="false">
+                    <span class="mode-icon">❓</span> ことば クイズ
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+            <!-- 1. Hiragana Chart Mode View -->
+            <section id="chart-view" class="view-section active">
+                <div class="chart-container">
+                    <div id="hiragana-grid" class="hiragana-grid">
+                        <!-- Javascript will dynamically inject Hiragana buttons here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Word Quiz Mode View -->
+            <section id="quiz-view" class="view-section">
+                <div class="quiz-container">
+                    <!-- Quiz Score / Progress -->
+                    <div class="quiz-header">
+                        <div class="quiz-progress">だい <span id="quiz-current-num">1</span> もん / ぜん <span id="quiz-total-num">5</span> もん</div>
+                        <div class="quiz-score">💮 できたスタンプ: <span id="quiz-score-stars"></span></div>
+                    </div>
+
+                    <!-- Main Quiz Card -->
+                    <div class="quiz-card" id="quiz-card">
+                        <div class="quiz-hint-image" id="quiz-hint-image">🍎</div>
+                        <div class="quiz-question-text" id="quiz-question-text">これ なぁに？</div>
+                        
+                        <!-- Answer slots (where letters will appear) -->
+                        <div class="quiz-answer-slots" id="quiz-answer-slots">
+                            <!-- e.g. <div class="slot-letter">り</div> -->
+                        </div>
+                    </div>
+
+                    <!-- Letter Choices to Pick From -->
+                    <div class="quiz-choices-container">
+                        <p class="choice-instruction">ただしい じゅんばんに もじを おしてね！</p>
+                        <div class="quiz-choices" id="quiz-choices">
+                            <!-- Javascript will inject choice buttons here -->
+                        </div>
+                    </div>
+
+                    <!-- Quiz Navigation / Control Buttons -->
+                    <div class="quiz-controls">
+                        <button id="btn-skip-quiz" class="control-btn secondary-btn">つぎのもん ➡️</button>
+                        <button id="btn-reset-quiz" class="control-btn danger-btn">やりなおす 🔄</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>© 2026 ひらがなであそぼう！ - おうちでたのしくひらがな学習</p>
+        </footer>
+    </div>
+
+    <!-- Detail/Popup Modal for Hiragana Chart Mode -->
+    <div id="detail-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content">
+            <button id="btn-close-modal" class="close-modal-btn" aria-label="とじる">❌</button>
+            <div class="modal-body">
+                <div class="large-letter-display" id="modal-large-letter">あ</div>
+                <div class="word-illustration" id="modal-illustration">🐜</div>
+                <div class="word-display" id="modal-word">あり</div>
+                <button id="btn-modal-voice" class="modal-voice-btn">
+                    <span class="speaker-icon">🔊</span> おとをきく
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Celebration Overlay (Confetti and Big Circle for correct answer) -->
+    <div id="celebration-overlay" class="celebration-overlay">
+        <div class="celebration-content">
+            <div class="huge-circle">💮</div>
+            <div class="celebration-text">せいかい！ すごいね！</div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
