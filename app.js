@@ -67,8 +67,8 @@ const hiraganaData = [
     // Row 9: わ行
     { char: 'わ', word: 'わに', emoji: '🐊', row: 'wa-row', rowIdx: 9, col: 0 },
     { char: null, word: null, emoji: null, row: 'wa-row', rowIdx: 9, col: 1 },
-    { char: null, word: null, emoji: null, row: 'wa-row', rowIdx: 9, col: 2 },
-    { char: 'を', word: 'ほんをよむ', emoji: '📖', row: 'wa-row', rowIdx: 9, col: 3 },
+    { char: 'を', word: 'ほんをよむ', emoji: '📖', row: 'wa-row', rowIdx: 9, col: 2 },
+    { char: null, word: null, emoji: null, row: 'wa-row', rowIdx: 9, col: 3 },
     { char: 'ん', word: 'めろん', emoji: '🍈', row: 'wa-row', rowIdx: 9, col: 4 }
 ];
 
