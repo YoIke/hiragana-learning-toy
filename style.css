@@ -13,7 +13,7 @@
     --color-orange: #f77f00;
     --text-main: #4a3e3d;
     --font-rounded: 'M PLUS Rounded 1c', sans-serif;
-    --shadow-3d: 0 8px 0 #4a3e3d;
+    --shadow-3d: 0 6px 0 #4a3e3d;
     --border-main: 4px solid #4a3e3d;
 }
 
@@ -34,7 +34,7 @@ body {
     background-attachment: fixed;
     color: var(--text-main);
     line-height: 1.5;
-    padding: 10px;
+    padding: 15px 10px;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -47,7 +47,7 @@ body {
 /* App Container */
 .app-container {
     width: 100%;
-    max-width: 900px;
+    max-width: 500px; /* Keep overall layout focused and centered, ideal for kids */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,7 +61,7 @@ body {
 }
 
 .app-title {
-    font-size: 2.5rem;
+    font-size: 2.4rem;
     font-weight: 900;
     margin-bottom: 6px;
     display: flex;
@@ -140,10 +140,6 @@ body {
     padding: 5px 15px;
 }
 
-.mode-icon {
-    font-size: 1.2rem;
-}
-
 /* Main Area */
 .app-main {
     width: 100%;
@@ -168,16 +164,15 @@ body {
     background-color: #fff;
     border-radius: 24px;
     border: var(--border-main);
-    padding: 15px;
+    padding: 16px;
     box-shadow: var(--shadow-3d);
     width: 100%;
-    overflow: hidden; /* Prevent clipping & scrolling */
 }
 
-/* 10 columns grid for Japanese Gojuon */
+/* 5 columns grid (A, I, U, E, O) for perfect smartphone support */
 .hiragana-grid {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 8px;
     width: 100%;
 }
@@ -230,19 +225,17 @@ body {
     aspect-ratio: 1;
 }
 
-/* Mini thumbnail image inside the letter button */
+/* Thumbnail emoji on larger screens */
 .letter-btn .btn-thumbnail {
     position: absolute;
     bottom: 2px;
     right: 2px;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     pointer-events: none;
 }
 
 /* 2. Word Quiz Mode */
 .quiz-container {
-    max-width: 500px;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -254,10 +247,9 @@ body {
     background-color: #fff;
     border-radius: 24px;
     border: var(--border-main);
-    padding: 24px;
+    padding: 24px 16px;
     box-shadow: var(--shadow-3d);
     text-align: center;
-    animation: fadeIn 0.3s ease-out;
 }
 
 .level-title {
@@ -386,7 +378,7 @@ body {
     color: #7b6f6e;
 }
 
-/* Answer Slots (the letter boxes to fill) */
+/* Answer Slots */
 .quiz-answer-slots {
     display: flex;
     gap: 8px;
@@ -486,9 +478,9 @@ body {
 
 .control-btn {
     font-family: var(--font-rounded);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 800;
-    padding: 10px 14px;
+    padding: 10px 12px;
     border: var(--border-main);
     border-radius: 16px;
     cursor: pointer;
@@ -520,56 +512,53 @@ body {
 /* Game Completed Result screen */
 .quiz-result-area {
     width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .result-card {
     background-color: #fff;
     border-radius: 32px;
     border: var(--border-main);
-    padding: 40px 20px;
+    padding: 30px 16px;
     text-align: center;
     box-shadow: var(--shadow-3d);
 }
 
 .trophy-display {
-    font-size: 6rem;
+    font-size: 5rem;
     animation: float 2s ease-in-out infinite alternate;
 }
 
 .result-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 900;
     color: var(--color-orange);
-    margin: 15px 0 8px 0;
+    margin: 12px 0 6px 0;
 }
 
 .result-text {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 800;
     color: #555;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .result-stars {
-    font-size: 2rem;
-    margin-bottom: 30px;
-    letter-spacing: 5px;
+    font-size: 1.8rem;
+    margin-bottom: 24px;
+    letter-spacing: 4px;
 }
 
 .restart-game-btn {
     font-family: var(--font-rounded);
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     font-weight: 900;
     background-color: var(--color-yellow);
     color: var(--text-main);
     border: var(--border-main);
-    border-radius: 24px;
-    padding: 14px 40px;
+    border-radius: 20px;
+    padding: 12px 30px;
     cursor: pointer;
-    box-shadow: 0 6px 0 #4a3e3d;
+    box-shadow: 0 5px 0 #4a3e3d;
     transition: all 0.1s ease;
 }
 
@@ -611,9 +600,9 @@ body {
     border-radius: 32px;
     border: var(--border-main);
     width: 90%;
-    max-width: 400px;
-    padding: 30px 20px;
-    box-shadow: 0 15px 0 rgba(0,0,0,0.15);
+    max-width: 380px;
+    padding: 24px 16px;
+    box-shadow: 0 12px 0 rgba(0,0,0,0.15);
     position: relative;
     transform: scale(0.8) translateY(20px);
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -626,11 +615,11 @@ body {
 
 .close-modal-btn {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 10px;
+    right: 10px;
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     cursor: pointer;
     transition: transform 0.2s ease;
 }
@@ -643,25 +632,25 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
 }
 
 .large-letter-display {
-    font-size: 5rem;
+    font-size: 4.5rem;
     font-weight: 900;
     background-color: var(--color-yellow);
-    width: 110px;
-    height: 110px;
+    width: 95px;
+    height: 95px;
     border: var(--border-main);
-    border-radius: 28px;
+    border-radius: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 8px 0 #4a3e3d;
+    box-shadow: 0 6px 0 #4a3e3d;
 }
 
 .word-illustration {
-    font-size: 5rem;
+    font-size: 4.5rem;
     animation: jelly 1s ease infinite alternate;
 }
 
@@ -671,26 +660,26 @@ body {
 }
 
 .word-display {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 900;
     color: var(--text-main);
     background-color: #f0f0f0;
-    padding: 4px 20px;
-    border-radius: 16px;
+    padding: 4px 18px;
+    border-radius: 14px;
     border: 3px solid #4a3e3d;
 }
 
 .modal-voice-btn {
     font-family: var(--font-rounded);
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 800;
     background-color: var(--color-blue);
     color: var(--text-main);
     border: var(--border-main);
-    border-radius: 20px;
-    padding: 10px 24px;
+    border-radius: 16px;
+    padding: 8px 20px;
     cursor: pointer;
-    box-shadow: 0 5px 0 #4a3e3d;
+    box-shadow: 0 4px 0 #4a3e3d;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -698,16 +687,16 @@ body {
 }
 
 .modal-voice-btn:hover {
-    transform: translateY(2px);
+    transform: translateY(1px);
     box-shadow: 0 3px 0 #4a3e3d;
 }
 
 .modal-voice-btn:active {
-    transform: translateY(5px);
+    transform: translateY(4px);
     box-shadow: 0 0px 0 #4a3e3d;
 }
 
-/* Celebration Overlay (Correct Answer Screen) */
+/* Celebration Overlay */
 .celebration-overlay {
     position: fixed;
     top: 0;
@@ -740,9 +729,9 @@ body {
 }
 
 .huge-circle {
-    font-size: 6.5rem;
+    font-size: 6rem;
     line-height: 1;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     animation: stampEffect 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
@@ -761,13 +750,13 @@ body {
 /* Footer Styling */
 .app-footer {
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 500;
     color: #9b8e8d;
     margin-top: 15px;
 }
 
-/* Responsive Mobile Rules */
+/* Responsive Mobile Rules (Optimized for 5 columns) */
 @media (max-width: 600px) {
     body {
         padding: 5px;
@@ -792,19 +781,19 @@ body {
     }
 
     .chart-container {
-        padding: 6px;
+        padding: 8px;
         border-radius: 16px;
         border-width: 3px;
     }
 
     .hiragana-grid {
-        gap: 3px; /* Extra compact for mobile */
+        gap: 6px; 
     }
 
     .letter-btn {
-        font-size: 1.25rem;
-        border-width: 2px;
-        border-radius: 8px;
+        font-size: 1.5rem; /* Larger font size for better clarity */
+        border-width: 3px;
+        border-radius: 12px;
         box-shadow: 0 3px 0 #4a3e3d;
     }
 
@@ -814,15 +803,15 @@ body {
     }
 
     .letter-btn .btn-thumbnail {
-        display: none; /* Hide emojis in list to fit letters clearly on mobile screens */
+        display: none; /* Hide thumbnail on mobile to maximize Hiragana text size */
     }
 
     .slot-letter {
-        width: 42px;
-        height: 42px;
+        width: 44px;
+        height: 44px;
         font-size: 1.4rem;
         border-width: 2px;
-        border-radius: 8px;
+        border-radius: 10px;
     }
     
     .slot-letter.filled {
@@ -832,11 +821,11 @@ body {
     }
     
     .choice-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1.35rem;
-        border-width: 2px;
-        border-radius: 8px;
+        width: 42px;
+        height: 42px;
+        font-size: 1.4rem;
+        border-width: 3px;
+        border-radius: 10px;
         box-shadow: 0 3px 0 #4a3e3d;
     }
 }

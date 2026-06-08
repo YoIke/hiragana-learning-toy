@@ -1,78 +1,79 @@
 // Hiragana Data (Clean Seion - no voiced/semi-voiced consonants like 濁点/半濁点 in words)
+// Layout: 5 columns (あ, い, う, え, お) x 10 rows (あ, か, さ, た, な, は, ま, や, ら, わ)
 const hiraganaData = [
-    // Column 0: あ行
-    { char: 'あ', word: 'あり', emoji: '🐜', row: 'a-row', col: 0, rowIdx: 0 },
-    { char: 'い', word: 'いぬ', emoji: '🐶', row: 'a-row', col: 0, rowIdx: 1 },
-    { char: 'う', word: 'うし', emoji: '🐂', row: 'a-row', col: 0, rowIdx: 2 },
-    { char: 'え', word: 'えほん', emoji: '📖', row: 'a-row', col: 0, rowIdx: 3 },
-    { char: 'お', word: 'おうち', emoji: '🏠', row: 'a-row', col: 0, rowIdx: 4 },
+    // Row 0: あ行
+    { char: 'あ', word: 'あり', emoji: '🐜', row: 'a-row', rowIdx: 0, col: 0 },
+    { char: 'い', word: 'いぬ', emoji: '🐶', row: 'a-row', rowIdx: 0, col: 1 },
+    { char: 'う', word: 'うし', emoji: '🐂', row: 'a-row', rowIdx: 0, col: 2 },
+    { char: 'え', word: 'えほん', emoji: '📖', row: 'a-row', rowIdx: 0, col: 3 },
+    { char: 'お', word: 'おうち', emoji: '🏠', row: 'a-row', rowIdx: 0, col: 4 },
 
-    // Column 1: か行
-    { char: 'か', word: 'かめ', emoji: '🐢', row: 'ka-row', col: 1, rowIdx: 0 },
-    { char: 'き', word: 'きつね', emoji: '🦊', row: 'ka-row', col: 1, rowIdx: 1 },
-    { char: 'く', word: 'くるま', emoji: '🚗', row: 'ka-row', col: 1, rowIdx: 2 },
-    { char: 'け', word: 'けむし', emoji: '🐛', row: 'ka-row', col: 1, rowIdx: 3 },
-    { char: 'こ', word: 'こあら', emoji: '🐨', row: 'ka-row', col: 1, rowIdx: 4 },
+    // Row 1: か行
+    { char: 'か', word: 'かめ', emoji: '🐢', row: 'ka-row', rowIdx: 1, col: 0 },
+    { char: 'き', word: 'きつね', emoji: '🦊', row: 'ka-row', rowIdx: 1, col: 1 },
+    { char: 'く', word: 'くるま', emoji: '🚗', row: 'ka-row', rowIdx: 1, col: 2 },
+    { char: 'け', word: 'けむし', emoji: '🐛', row: 'ka-row', rowIdx: 1, col: 3 },
+    { char: 'こ', word: 'こあら', emoji: '🐨', row: 'ka-row', rowIdx: 1, col: 4 },
 
-    // Column 2: さ行
-    { char: 'さ', word: 'さかな', emoji: '🐟', row: 'sa-row', col: 2, rowIdx: 0 },
-    { char: 'し', word: 'しか', emoji: '🦌', row: 'sa-row', col: 2, rowIdx: 1 },
-    { char: 'す', word: 'すいか', emoji: '🍉', row: 'sa-row', col: 2, rowIdx: 2 },
-    { char: 'せ', word: 'せっけん', emoji: '🧼', row: 'sa-row', col: 2, rowIdx: 3 },
-    { char: 'そ', word: 'そら', emoji: '🌤️', row: 'sa-row', col: 2, rowIdx: 4 },
+    // Row 2: さ行
+    { char: 'さ', word: 'さかな', emoji: '🐟', row: 'sa-row', rowIdx: 2, col: 0 },
+    { char: 'し', word: 'しか', emoji: '🦌', row: 'sa-row', rowIdx: 2, col: 1 },
+    { char: 'す', word: 'すいか', emoji: '🍉', row: 'sa-row', rowIdx: 2, col: 2 },
+    { char: 'せ', word: 'せっけん', emoji: '🧼', row: 'sa-row', rowIdx: 2, col: 3 },
+    { char: 'そ', word: 'そら', emoji: '🌤️', row: 'sa-row', rowIdx: 2, col: 4 },
 
-    // Column 3: た行
-    { char: 'た', word: 'たこ', emoji: '🐙', row: 'ta-row', col: 3, rowIdx: 0 },
-    { char: 'ち', word: 'ちりとり', emoji: '🧹', row: 'ta-row', col: 3, rowIdx: 1 },
-    { char: 'つ', word: 'つみき', emoji: '🧱', row: 'ta-row', col: 3, rowIdx: 2 },
-    { char: 'て', word: 'てんと', emoji: '🎪', row: 'ta-row', col: 3, rowIdx: 3 },
-    { char: 'と', word: 'とまと', emoji: '🍅', row: 'ta-row', col: 3, rowIdx: 4 },
+    // Row 3: た行
+    { char: 'た', word: 'たこ', emoji: '🐙', row: 'ta-row', rowIdx: 3, col: 0 },
+    { char: 'ち', word: 'ちりとり', emoji: '🧹', row: 'ta-row', rowIdx: 3, col: 1 },
+    { char: 'つ', word: 'つみき', emoji: '🧱', row: 'ta-row', rowIdx: 3, col: 2 },
+    { char: 'て', word: 'てんと', emoji: '🎪', row: 'ta-row', rowIdx: 3, col: 3 },
+    { char: 'と', word: 'とまと', emoji: '🍅', row: 'ta-row', rowIdx: 3, col: 4 },
 
-    // Column 4: な行
-    { char: 'な', word: 'なす', emoji: '🍆', row: 'na-row', col: 4, rowIdx: 0 },
-    { char: 'に', word: 'にわとり', emoji: '🐔', row: 'na-row', col: 4, rowIdx: 1 },
-    { char: 'ぬ', word: 'ぬりえ', emoji: '🎨', row: 'na-row', col: 4, rowIdx: 2 },
-    { char: 'ね', word: 'ねこ', emoji: '🐱', row: 'na-row', col: 4, rowIdx: 3 },
-    { char: 'の', word: 'のりもの', emoji: '🚗', row: 'na-row', col: 4, rowIdx: 4 },
+    // Row 4: な行
+    { char: 'な', word: 'なす', emoji: '🍆', row: 'na-row', rowIdx: 4, col: 0 },
+    { char: 'に', word: 'にわとり', emoji: '🐔', row: 'na-row', col: 4, col: 1 },
+    { char: 'ぬ', word: 'ぬりえ', emoji: '🎨', row: 'na-row', col: 4, col: 2 },
+    { char: 'ね', word: 'ねこ', emoji: '🐱', row: 'na-row', col: 4, col: 3 },
+    { char: 'の', word: 'のりもの', emoji: '🚗', row: 'na-row', col: 4, col: 4 },
 
-    // Column 5: は行
-    { char: 'は', word: 'はな', emoji: '🌸', row: 'ha-row', col: 5, rowIdx: 0 },
-    { char: 'ひ', word: 'ひこうき', emoji: '✈️', row: 'ha-row', col: 5, rowIdx: 1 },
-    { char: 'ふ', word: 'ふうせん', emoji: '🎈', row: 'ha-row', col: 5, rowIdx: 2 },
-    { char: 'へ', word: 'へや', emoji: '🚪', row: 'ha-row', col: 5, rowIdx: 3 },
-    { char: 'ほ', word: 'ほし', emoji: '⭐', row: 'ha-row', col: 5, rowIdx: 4 },
+    // Row 5: は行
+    { char: 'は', word: 'はな', emoji: '🌸', row: 'ha-row', rowIdx: 5, col: 0 },
+    { char: 'ひ', word: 'ひこうき', emoji: '✈️', row: 'ha-row', rowIdx: 5, col: 1 },
+    { char: 'ふ', word: 'ふうせん', emoji: '🎈', row: 'ha-row', rowIdx: 5, col: 2 },
+    { char: 'へ', word: 'へや', emoji: '🚪', row: 'ha-row', rowIdx: 5, col: 3 },
+    { char: 'ほ', word: 'ほし', emoji: '⭐', row: 'ha-row', rowIdx: 5, col: 4 },
 
-    // Column 6: ま行
-    { char: 'ま', word: 'まくら', emoji: '🛌', row: 'ma-row', col: 6, rowIdx: 0 },
-    { char: 'み', word: 'みかん', emoji: '🍊', row: 'ma-row', col: 6, rowIdx: 1 },
-    { char: 'む', word: 'むし', emoji: '🐛', row: 'ma-row', col: 6, rowIdx: 2 },
-    { char: 'め', word: 'めろん', emoji: '🍈', row: 'ma-row', col: 6, rowIdx: 3 },
-    { char: 'も', word: 'もも', emoji: '🍑', row: 'ma-row', col: 6, rowIdx: 4 },
+    // Row 6: ま行
+    { char: 'ま', word: 'まくら', emoji: '🛌', row: 'ma-row', rowIdx: 6, col: 0 },
+    { char: 'み', word: 'みかん', emoji: '🍊', row: 'ma-row', rowIdx: 6, col: 1 },
+    { char: 'む', word: 'むし', emoji: '🐛', row: 'ma-row', rowIdx: 6, col: 2 },
+    { char: 'め', word: 'めろん', emoji: '🍈', row: 'ma-row', rowIdx: 6, col: 3 },
+    { char: 'mo', char: 'も', word: 'もも', emoji: '🍑', row: 'ma-row', rowIdx: 6, col: 4 },
 
-    // Column 7: や行
-    { char: 'や', word: 'やま', emoji: '⛰️', row: 'ya-row', col: 7, rowIdx: 0 },
-    { char: null, word: null, emoji: null, row: 'ya-row', col: 7, rowIdx: 1 },
-    { char: 'ゆ', word: 'ゆき', emoji: '❄️', row: 'ya-row', col: 7, rowIdx: 2 },
-    { char: null, word: null, emoji: null, row: 'ya-row', col: 7, rowIdx: 3 },
-    { char: 'よ', word: 'よっと', emoji: '⛵', row: 'ya-row', col: 7, rowIdx: 4 },
+    // Row 7: や行
+    { char: 'や', word: 'やま', emoji: '⛰️', row: 'ya-row', rowIdx: 7, col: 0 },
+    { char: null, word: null, emoji: null, row: 'ya-row', rowIdx: 7, col: 1 },
+    { char: 'ゆ', word: 'ゆき', emoji: '❄️', row: 'ya-row', rowIdx: 7, col: 2 },
+    { char: null, word: null, emoji: null, row: 'ya-row', rowIdx: 7, col: 3 },
+    { char: 'よ', word: 'よっと', emoji: '⛵', row: 'ya-row', rowIdx: 7, col: 4 },
 
-    // Column 8: ら行
-    { char: 'ら', word: 'らいおん', emoji: '🦁', row: 'ra-row', col: 8, rowIdx: 0 },
-    { char: 'り', word: 'りす', emoji: '🐿️', row: 'ra-row', col: 8, rowIdx: 1 },
-    { char: 'る', word: 'るす', emoji: '🏠', row: 'ra-row', col: 8, rowIdx: 2 },
-    { char: 'れ', word: 'れもん', emoji: '🍋', row: 'ra-row', col: 8, rowIdx: 3 },
-    { char: 'ろ', word: 'ろけっと', emoji: '🚀', row: 'ra-row', col: 8, rowIdx: 4 },
+    // Row 8: ら行
+    { char: 'ら', word: 'らいおん', emoji: '🦁', row: 'ra-row', rowIdx: 8, col: 0 },
+    { char: 'り', word: 'りす', emoji: '🐿️', row: 'ra-row', rowIdx: 8, col: 1 },
+    { char: 'る', word: 'るす', emoji: '🏠', row: 'ra-row', rowIdx: 8, col: 2 },
+    { char: 'れ', word: 'れもん', emoji: '🍋', row: 'ra-row', rowIdx: 8, col: 3 },
+    { char: 'ろ', word: 'ろけっと', emoji: '🚀', row: 'ra-row', rowIdx: 8, col: 4 },
 
-    // Column 9: わ行
-    { char: 'わ', word: 'わに', emoji: '🐊', row: 'wa-row', col: 9, rowIdx: 0 },
-    { char: null, word: null, emoji: null, row: 'wa-row', col: 9, rowIdx: 1 },
-    { char: null, word: null, emoji: null, row: 'wa-row', col: 9, rowIdx: 2 },
-    { char: 'を', word: 'ほんをよむ', emoji: '📖', row: 'wa-row', col: 9, rowIdx: 3 },
-    { char: 'ん', word: 'めろん', emoji: '🍈', row: 'wa-row', col: 9, rowIdx: 4 }
+    // Row 9: わ行
+    { char: 'わ', word: 'わに', emoji: '🐊', row: 'wa-row', rowIdx: 9, col: 0 },
+    { char: null, word: null, emoji: null, row: 'wa-row', rowIdx: 9, col: 1 },
+    { char: null, word: null, emoji: null, row: 'wa-row', rowIdx: 9, col: 2 },
+    { char: 'を', word: 'ほんをよむ', emoji: '📖', row: 'wa-row', rowIdx: 9, col: 3 },
+    { char: 'ん', word: 'めろん', emoji: '🍈', row: 'wa-row', rowIdx: 9, col: 4 }
 ];
 
 // App State
-let currentMode = 'chart'; // 'chart' or 'quiz'
+let currentMode = 'chart'; 
 let speechVoice = null;
 let audioContext = null;
 
@@ -81,7 +82,7 @@ let quizQuestions = [];
 let currentQuestionIndex = 0;
 let quizScore = 0;
 let selectedLetters = [];
-let currentLevel = 'medium'; // 'easy' (2 chars), 'medium' (3 chars), 'hard' (4+ chars)
+let currentLevel = 'medium'; 
 
 // DOM Elements
 const btnChartMode = document.getElementById('btn-chart-mode');
@@ -129,7 +130,6 @@ function playSound(type) {
         osc.start(now);
         osc.stop(now + 0.08);
     } else if (type === 'correct') {
-        // C5 -> E5 -> G5 -> C6 happy arpeggio
         osc.type = 'triangle';
         gain.gain.setValueAtTime(0.15, now);
         gain.gain.linearRampToValueAtTime(0.15, now + 0.45);
@@ -151,8 +151,7 @@ function playSound(type) {
         osc.start(now);
         osc.stop(now + 0.2);
     } else if (type === 'fanfare') {
-        // High triumph chords
-        const notes = [523.25, 659.25, 783.99, 1046.50]; // C Major
+        const notes = [523.25, 659.25, 783.99, 1046.50];
         notes.forEach((freq, i) => {
             const chordOsc = audioContext.createOscillator();
             const chordGain = audioContext.createGain();
@@ -201,13 +200,14 @@ function speakText(text) {
     }
 }
 
-// 1. Hiragana Chart Renderer
+// 1. Hiragana Chart Renderer (5 cols x 10 rows layout)
 function setupHiraganaGrid() {
     hiraganaGrid.innerHTML = '';
     
-    // 5 rows x 10 cols grid layout
-    for (let r = 0; r < 5; r++) {
-        for (let c = 0; c < 10; c++) {
+    // Loop through 10 rows (あ, か, さ, た, な, は, ま, や, ら, わ)
+    // and 5 columns (あ, い, う, え, お)
+    for (let r = 0; r < 10; r++) {
+        for (let c = 0; c < 5; c++) {
             const cell = hiraganaData.find(item => item.rowIdx === r && item.col === c);
             
             if (cell && cell.char) {
@@ -263,7 +263,6 @@ function hideDetailModal() {
 function selectLevel(level) {
     currentLevel = level;
     
-    // Update active visual state for selector buttons
     document.querySelectorAll('.level-btn').forEach(btn => {
         btn.classList.remove('active');
     });
@@ -274,8 +273,6 @@ function selectLevel(level) {
 }
 
 function startQuiz() {
-    // Filter questions by selected level
-    // 'を' and 'ん' are excluded since they do not begin words
     const playablePool = hiraganaData.filter(item => item.char && item.char !== 'を' && item.char !== 'ん' && item.word);
     
     let filteredPool = [];
@@ -287,11 +284,9 @@ function startQuiz() {
         filteredPool = playablePool.filter(item => item.word.length >= 4);
     }
 
-    // Shuffle and pick 5 questions
     const shuffled = [...filteredPool].sort(() => 0.5 - Math.random());
     quizQuestions = shuffled.slice(0, 5);
     
-    // Fallback: if we don't have 5 words of this length, use whatever we have, or fill from playable pool
     if (quizQuestions.length < 5) {
         const remainingCount = 5 - quizQuestions.length;
         const extraPool = playablePool.filter(item => !quizQuestions.includes(item));
@@ -350,7 +345,6 @@ function loadQuizQuestion() {
     const choicesContainer = document.getElementById('quiz-choices');
     choicesContainer.innerHTML = '';
 
-    // Shuffle letters of the word
     const shuffledLetters = [...targetLetters].sort(() => 0.5 - Math.random());
     
     shuffledLetters.forEach((letter, index) => {
@@ -373,7 +367,6 @@ function handleChoiceClick(button, clickedLetter, targetLetters) {
     const currentSlotIndex = selectedLetters.length;
     const expectedLetter = targetLetters[currentSlotIndex];
 
-    // Read the tapped letter out loud to help the child
     speakText(clickedLetter);
 
     if (clickedLetter === expectedLetter) {
@@ -388,7 +381,6 @@ function handleChoiceClick(button, clickedLetter, targetLetters) {
         }
 
         if (selectedLetters.length === targetLetters.length) {
-            // Wait slightly so the letter audio plays before the success chime/audio
             setTimeout(handleWordCorrect, 450);
         }
     } else {
@@ -425,7 +417,6 @@ function showQuizResults() {
     quizPlayArea.classList.add('hidden');
     quizResultArea.classList.remove('hidden');
     
-    // Render stamps / stars in result screen
     const resultStars = document.getElementById('result-stars-display');
     resultStars.innerHTML = '';
     for (let i = 0; i < quizScore; i++) {
@@ -457,7 +448,6 @@ function switchMode(mode) {
         quizView.classList.add('active');
         chartView.classList.remove('active');
         
-        // Return to Level Selector
         levelSelectorContainer.classList.remove('hidden');
         quizPlayArea.classList.add('hidden');
         quizResultArea.classList.add('hidden');
@@ -469,11 +459,9 @@ function initApp() {
     setupHiraganaGrid();
     initSpeech();
 
-    // Mode Switch
     btnChartMode.addEventListener('click', () => switchMode('chart'));
     btnQuizMode.addEventListener('click', () => switchMode('quiz'));
 
-    // Modal Close
     btnCloseModal.addEventListener('click', hideDetailModal);
     detailModal.addEventListener('click', (e) => {
         if (e.target === detailModal) hideDetailModal();
@@ -486,7 +474,6 @@ function initApp() {
         }
     });
 
-    // Level selector buttons
     document.querySelectorAll('.level-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const level = btn.dataset.level;
@@ -494,7 +481,6 @@ function initApp() {
         });
     });
 
-    // Quiz Control buttons
     document.getElementById('btn-back-to-levels').addEventListener('click', () => {
         playSound('click');
         levelSelectorContainer.classList.remove('hidden');
