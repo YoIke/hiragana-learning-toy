@@ -1,5 +1,5 @@
 // Hiragana Data (Clean Seion - no voiced/semi-voiced consonants like 濁点/半濁点 in words)
-// Layout: 5 columns (あ, い, う, え, お) x 10 rows (あ, か, さ, た, な, は, ま, や, ら, わ)
+// Layout: 5 columns (あ, い, う, え, お) x 10 rows (あ, か, さ, た, な, は, ま, や, ら,わ)
 const hiraganaData = [
     // Row 0: あ行
     { char: 'あ', word: 'あり', emoji: '🐜', row: 'a-row', rowIdx: 0, col: 0 },
@@ -31,7 +31,7 @@ const hiraganaData = [
 
     // Row 4: な行
     { char: 'な', word: 'なす', emoji: '🍆', row: 'na-row', rowIdx: 4, col: 0 },
-    { char: 'に', word: 'にわとり', emoji: '🐔', row: 'na-row', col: 4, col: 1 },
+    { char: 'に', word: 'にわとり', emoji: '🐔', row: 'na-row', rowIdx: 4, col: 1 },
     { char: 'ぬ', word: 'ぬりえ', emoji: '🎨', row: 'na-row', col: 4, col: 2 },
     { char: 'ね', word: 'ねこ', emoji: '🐱', row: 'na-row', col: 4, col: 3 },
     { char: 'の', word: 'のりもの', emoji: '🚗', row: 'na-row', col: 4, col: 4 },
@@ -48,7 +48,7 @@ const hiraganaData = [
     { char: 'み', word: 'みかん', emoji: '🍊', row: 'ma-row', rowIdx: 6, col: 1 },
     { char: 'む', word: 'むし', emoji: '🐛', row: 'ma-row', rowIdx: 6, col: 2 },
     { char: 'め', word: 'めろん', emoji: '🍈', row: 'ma-row', rowIdx: 6, col: 3 },
-    { char: 'mo', char: 'も', word: 'もも', emoji: '🍑', row: 'ma-row', rowIdx: 6, col: 4 },
+    { char: 'も', word: 'もも', emoji: '🍑', row: 'ma-row', rowIdx: 6, col: 4 },
 
     // Row 7: や行
     { char: 'や', word: 'やま', emoji: '⛰️', row: 'ya-row', rowIdx: 7, col: 0 },
@@ -204,8 +204,6 @@ function speakText(text) {
 function setupHiraganaGrid() {
     hiraganaGrid.innerHTML = '';
     
-    // Loop through 10 rows (あ, か, さ, た, な, は, ま, や, ら, わ)
-    // and 5 columns (あ, い, う, え, お)
     for (let r = 0; r < 10; r++) {
         for (let c = 0; c < 5; c++) {
             const cell = hiraganaData.find(item => item.rowIdx === r && item.col === c);
@@ -396,6 +394,17 @@ function handleChoiceClick(button, clickedLetter, targetLetters) {
     }
 }
 
+// Injected styling for card shake feedback
+const styleEl = document.createElement('style');
+styleEl.textContent = `
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px) rotate(-1deg); }
+    75% { transform: translateX(8px) rotate(1deg); }
+}
+`;
+document.head.appendChild(styleEl);
+
 function handleWordCorrect() {
     const currentQuestion = quizQuestions[currentQuestionIndex];
     quizScore++;
@@ -499,4 +508,9 @@ function initApp() {
     });
 }
 
-window.addEventListener('DOMContentLoaded', initApp);
+// Safe app boot selector
+if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
