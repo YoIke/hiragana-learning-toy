@@ -1,4 +1,4 @@
-// Hiragana Data (Only clean Seion - no voiced consonants like 濁点/半濁点 in the vocabulary words)
+// Hiragana Data (Clean Seion - no voiced/semi-voiced consonants like 濁点/半濁点 in words)
 const hiraganaData = [
     // Column 0: あ行
     { char: 'あ', word: 'あり', emoji: '🐜', row: 'a-row', col: 0, rowIdx: 0 },
@@ -81,6 +81,7 @@ let quizQuestions = [];
 let currentQuestionIndex = 0;
 let quizScore = 0;
 let selectedLetters = [];
+let currentLevel = 'medium'; // 'easy' (2 chars), 'medium' (3 chars), 'hard' (4+ chars)
 
 // DOM Elements
 const btnChartMode = document.getElementById('btn-chart-mode');
@@ -96,7 +97,12 @@ const modalWord = document.getElementById('modal-word');
 const btnModalVoice = document.getElementById('btn-modal-voice');
 const celebrationOverlay = document.getElementById('celebration-overlay');
 
-// Sound Effects Synthesizer (Web Audio API)
+// Quiz View Panels
+const levelSelectorContainer = document.getElementById('level-selector-container');
+const quizPlayArea = document.getElementById('quiz-play-area');
+const quizResultArea = document.getElementById('quiz-result-area');
+
+// Web Audio API Synthesizer
 function initAudio() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -115,46 +121,61 @@ function playSound(type) {
     const now = audioContext.currentTime;
 
     if (type === 'click') {
-        // Soft pop sound
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(400, now);
-        osc.frequency.exponentialRampToValueAtTime(80, now + 0.1);
-        gain.gain.setValueAtTime(0.3, now);
-        gain.gain.linearRampToValueAtTime(0.01, now + 0.1);
+        osc.frequency.setValueAtTime(450, now);
+        osc.frequency.exponentialRampToValueAtTime(100, now + 0.08);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
         osc.start(now);
-        osc.stop(now + 0.1);
+        osc.stop(now + 0.08);
     } else if (type === 'correct') {
-        // Happy chime: C5 then G5 then C6
+        // C5 -> E5 -> G5 -> C6 happy arpeggio
         osc.type = 'triangle';
         gain.gain.setValueAtTime(0.15, now);
-        gain.gain.linearRampToValueAtTime(0.15, now + 0.4);
+        gain.gain.linearRampToValueAtTime(0.15, now + 0.45);
         gain.gain.linearRampToValueAtTime(0.01, now + 0.6);
         
         osc.frequency.setValueAtTime(523.25, now); // C5
-        osc.frequency.setValueAtTime(783.99, now + 0.12); // G5
-        osc.frequency.setValueAtTime(1046.50, now + 0.24); // C6
+        osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+        osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+        osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
         
         osc.start(now);
         osc.stop(now + 0.6);
     } else if (type === 'incorrect') {
-        // Low buzzer sound
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(130, now); // C3
-        osc.frequency.linearRampToValueAtTime(110, now + 0.25);
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+        osc.frequency.setValueAtTime(150, now);
+        osc.frequency.linearRampToValueAtTime(120, now + 0.2);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
         osc.start(now);
-        osc.stop(now + 0.25);
+        osc.stop(now + 0.2);
+    } else if (type === 'fanfare') {
+        // High triumph chords
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C Major
+        notes.forEach((freq, i) => {
+            const chordOsc = audioContext.createOscillator();
+            const chordGain = audioContext.createGain();
+            chordOsc.connect(chordGain);
+            chordGain.connect(audioContext.destination);
+            
+            chordOsc.type = 'triangle';
+            chordOsc.frequency.setValueAtTime(freq, now + i * 0.08);
+            chordGain.gain.setValueAtTime(0.08, now + i * 0.08);
+            chordGain.gain.linearRampToValueAtTime(0.08, now + 0.6 + i * 0.08);
+            chordGain.gain.linearRampToValueAtTime(0.001, now + 1.2 + i * 0.08);
+            
+            chordOsc.start(now + i * 0.08);
+            chordOsc.stop(now + 1.5 + i * 0.08);
+        });
     }
 }
 
-// Text to Speech Wrapper
+// Text to Speech
 function initSpeech() {
     if ('speechSynthesis' in window) {
-        // Load voice list
         const loadVoices = () => {
             const voices = window.speechSynthesis.getVoices();
-            // Look for a Japanese voice
             speechVoice = voices.find(voice => voice.lang === 'ja-JP' || voice.lang.startsWith('ja'));
         };
         loadVoices();
@@ -166,7 +187,6 @@ function initSpeech() {
 
 function speakText(text) {
     if ('speechSynthesis' in window) {
-        // Cancel ongoing speech
         window.speechSynthesis.cancel();
 
         const utterance = new SpeechSynthesisUtterance(text);
@@ -174,32 +194,20 @@ function speakText(text) {
             utterance.voice = speechVoice;
         }
         utterance.lang = 'ja-JP';
-        utterance.rate = 0.85; // Slightly slower for kids
-        utterance.pitch = 1.25; // Slightly higher/cuter pitch
+        utterance.rate = 0.85;
+        utterance.pitch = 1.25; 
         
         window.speechSynthesis.speak(utterance);
     }
 }
 
-// 1. Initialize Hiragana Chart Grid
+// 1. Hiragana Chart Renderer
 function setupHiraganaGrid() {
-    // Clear grid
     hiraganaGrid.innerHTML = '';
-
-    // We have a 5 rows x 10 cols grid layout
-    // Grid cells will be filled col-by-col or row-by-row.
-    // In CSS grid, items are populated row-by-row: (row0, col0), (row0, col1)...
-    // We want:
-    // row 0: あ か さ た な は ま や ら わ
-    // row 1: い き し ち に ひ み 空 り 空
-    // row 2: う く す つ ぬ ふ む ゆ る 空
-    // row 3: え け せ て ね へ め 空 れ を
-    // row 4: お こ そ と の ほ も よ ろ ん
     
-    // We map rowIdx (0-4) and col (0-9) to locate the right item
+    // 5 rows x 10 cols grid layout
     for (let r = 0; r < 5; r++) {
         for (let c = 0; c < 10; c++) {
-            // Find data representing this grid cell
             const cell = hiraganaData.find(item => item.rowIdx === r && item.col === c);
             
             if (cell && cell.char) {
@@ -223,7 +231,7 @@ function setupHiraganaGrid() {
     }
 }
 
-// Modal handling
+// Modal
 let currentModalItem = null;
 function showDetailModal(item) {
     currentModalItem = item;
@@ -231,9 +239,7 @@ function showDetailModal(item) {
     modalIllustration.textContent = item.emoji;
     modalWord.textContent = item.word;
     
-    // Auto-speak on modal open
     setTimeout(() => {
-        // Read: "あ！ あり！"
         if (item.char === 'を') {
             speakText(`${item.char}。 ほんをよむ の、 ${item.char}`);
         } else if (item.char === 'ん') {
@@ -254,16 +260,51 @@ function hideDetailModal() {
 }
 
 // 2. Word Quiz Logic
-function setupQuizMode() {
-    // Generate pool of words (excluding 'を' and 'ん' as standalone questions since they don't start words)
-    const quizPool = hiraganaData.filter(item => item.char && item.char !== 'を' && item.char !== 'ん');
+function selectLevel(level) {
+    currentLevel = level;
     
+    // Update active visual state for selector buttons
+    document.querySelectorAll('.level-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.querySelector(`.level-btn.${level}`).classList.add('active');
+    
+    playSound('click');
+    startQuiz();
+}
+
+function startQuiz() {
+    // Filter questions by selected level
+    // 'を' and 'ん' are excluded since they do not begin words
+    const playablePool = hiraganaData.filter(item => item.char && item.char !== 'を' && item.char !== 'ん' && item.word);
+    
+    let filteredPool = [];
+    if (currentLevel === 'easy') {
+        filteredPool = playablePool.filter(item => item.word.length === 2);
+    } else if (currentLevel === 'medium') {
+        filteredPool = playablePool.filter(item => item.word.length === 3);
+    } else {
+        filteredPool = playablePool.filter(item => item.word.length >= 4);
+    }
+
     // Shuffle and pick 5 questions
-    const shuffled = [...quizPool].sort(() => 0.5 - Math.random());
+    const shuffled = [...filteredPool].sort(() => 0.5 - Math.random());
     quizQuestions = shuffled.slice(0, 5);
     
+    // Fallback: if we don't have 5 words of this length, use whatever we have, or fill from playable pool
+    if (quizQuestions.length < 5) {
+        const remainingCount = 5 - quizQuestions.length;
+        const extraPool = playablePool.filter(item => !quizQuestions.includes(item));
+        const extraShuffled = extraPool.sort(() => 0.5 - Math.random()).slice(0, remainingCount);
+        quizQuestions = [...quizQuestions, ...extraShuffled];
+    }
+
     currentQuestionIndex = 0;
     quizScore = 0;
+    
+    levelSelectorContainer.classList.add('hidden');
+    quizPlayArea.classList.remove('hidden');
+    quizResultArea.classList.add('hidden');
     
     updateScoreStars();
     loadQuizQuestion();
@@ -282,10 +323,7 @@ function updateScoreStars() {
 
 function loadQuizQuestion() {
     if (currentQuestionIndex >= quizQuestions.length) {
-        // Quiz Complete!
-        speakText('ぜんぶできた！すごいすごーい！');
-        alert('🎉 ぜんぶ できたよ！ よくがんばったね！');
-        setupQuizMode();
+        showQuizResults();
         return;
     }
 
@@ -293,34 +331,28 @@ function loadQuizQuestion() {
     document.getElementById('quiz-current-num').textContent = currentQuestionIndex + 1;
     document.getElementById('quiz-total-num').textContent = quizQuestions.length;
     
-    // Set hint image
     const hintImage = document.getElementById('quiz-hint-image');
     hintImage.textContent = question.emoji;
 
-    // Reset slot area
     const slotsContainer = document.getElementById('quiz-answer-slots');
     slotsContainer.innerHTML = '';
     selectedLetters = [];
 
-    // The target word (e.g. "あり" -> ['あ', 'り'])
     const targetWord = question.word;
     const targetLetters = Array.from(targetWord);
 
-    // Create empty slots
     targetLetters.forEach(() => {
         const slot = document.createElement('div');
         slot.className = 'slot-letter';
         slotsContainer.appendChild(slot);
     });
 
-    // Create shuffled choices
     const choicesContainer = document.getElementById('quiz-choices');
     choicesContainer.innerHTML = '';
 
     // Shuffle letters of the word
     const shuffledLetters = [...targetLetters].sort(() => 0.5 - Math.random());
     
-    // Make choice buttons
     shuffledLetters.forEach((letter, index) => {
         const btn = document.createElement('button');
         btn.className = 'choice-btn';
@@ -334,7 +366,6 @@ function loadQuizQuestion() {
         choicesContainer.appendChild(btn);
     });
 
-    // Speak prompt: "これなあに？"
     speakText('これ なぁに？');
 }
 
@@ -342,62 +373,47 @@ function handleChoiceClick(button, clickedLetter, targetLetters) {
     const currentSlotIndex = selectedLetters.length;
     const expectedLetter = targetLetters[currentSlotIndex];
 
+    // Read the tapped letter out loud to help the child
+    speakText(clickedLetter);
+
     if (clickedLetter === expectedLetter) {
-        // Correct Choice
         playSound('click');
         selectedLetters.push(clickedLetter);
         button.classList.add('used');
 
-        // Fill slot
         const slots = document.querySelectorAll('#quiz-answer-slots .slot-letter');
         if (slots[currentSlotIndex]) {
             slots[currentSlotIndex].textContent = clickedLetter;
             slots[currentSlotIndex].classList.add('filled');
         }
 
-        // Check if word is complete
         if (selectedLetters.length === targetLetters.length) {
-            handleWordCorrect();
+            // Wait slightly so the letter audio plays before the success chime/audio
+            setTimeout(handleWordCorrect, 450);
         }
     } else {
-        // Wrong Choice
-        playSound('incorrect');
-        speakText('ちがうよー、もういっかいおしてみてね！');
-        
-        // Shake animation for incorrect feedback
-        const card = document.getElementById('quiz-card');
-        card.style.animation = 'none';
-        card.offsetHeight; // trigger reflow
-        card.style.animation = 'shake 0.4s ease-in-out';
+        setTimeout(() => {
+            playSound('incorrect');
+            speakText('ちがうよー、もういっかいおしてみてね！');
+            
+            const card = document.getElementById('quiz-card');
+            card.style.animation = 'none';
+            card.offsetHeight;
+            card.style.animation = 'shake 0.4s ease-in-out';
+        }, 300);
     }
 }
-
-// Simple shake animation injection (safeguard in case not fully defined in CSS)
-const styleEl = document.createElement('style');
-styleEl.textContent = `
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-8px) rotate(-1deg); }
-    75% { transform: translateX(8px) rotate(1deg); }
-}
-`;
-document.head.appendChild(styleEl);
 
 function handleWordCorrect() {
     const currentQuestion = quizQuestions[currentQuestionIndex];
     quizScore++;
     updateScoreStars();
     
-    // Play correct chime
     playSound('correct');
-
-    // Show celebration overlay
     celebrationOverlay.classList.add('active');
     
-    // Speak word
     speakText(`せいかい！ ${currentQuestion.word}！ すごいね！`);
 
-    // Wait and advance
     setTimeout(() => {
         celebrationOverlay.classList.remove('active');
         currentQuestionIndex++;
@@ -405,7 +421,21 @@ function handleWordCorrect() {
     }, 2000);
 }
 
-// Mode Switching Controller
+function showQuizResults() {
+    quizPlayArea.classList.add('hidden');
+    quizResultArea.classList.remove('hidden');
+    
+    // Render stamps / stars in result screen
+    const resultStars = document.getElementById('result-stars-display');
+    resultStars.innerHTML = '';
+    for (let i = 0; i < quizScore; i++) {
+        resultStars.innerHTML += '💮';
+    }
+    
+    playSound('fanfare');
+    speakText('ぜんぶできた！すごいすごーい！たいへんよくできました！');
+}
+
 function switchMode(mode) {
     currentMode = mode;
     playSound('click');
@@ -427,26 +457,28 @@ function switchMode(mode) {
         quizView.classList.add('active');
         chartView.classList.remove('active');
         
-        setupQuizMode();
+        // Return to Level Selector
+        levelSelectorContainer.classList.remove('hidden');
+        quizPlayArea.classList.add('hidden');
+        quizResultArea.classList.add('hidden');
     }
 }
 
-// Event Listeners Setup
+// Event Listeners
 function initApp() {
     setupHiraganaGrid();
     initSpeech();
 
-    // Mode Switch events
+    // Mode Switch
     btnChartMode.addEventListener('click', () => switchMode('chart'));
     btnQuizMode.addEventListener('click', () => switchMode('quiz'));
 
-    // Modal Close event
+    // Modal Close
     btnCloseModal.addEventListener('click', hideDetailModal);
     detailModal.addEventListener('click', (e) => {
         if (e.target === detailModal) hideDetailModal();
     });
 
-    // Modal Voice repeat
     btnModalVoice.addEventListener('click', () => {
         if (currentModalItem) {
             playSound('click');
@@ -454,18 +486,31 @@ function initApp() {
         }
     });
 
-    // Quiz controls
-    document.getElementById('btn-skip-quiz').addEventListener('click', () => {
+    // Level selector buttons
+    document.querySelectorAll('.level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const level = btn.dataset.level;
+            selectLevel(level);
+        });
+    });
+
+    // Quiz Control buttons
+    document.getElementById('btn-back-to-levels').addEventListener('click', () => {
         playSound('click');
-        currentQuestionIndex++;
-        loadQuizQuestion();
+        levelSelectorContainer.classList.remove('hidden');
+        quizPlayArea.classList.add('hidden');
     });
 
     document.getElementById('btn-reset-quiz').addEventListener('click', () => {
         playSound('click');
         loadQuizQuestion();
     });
+
+    document.getElementById('btn-restart-game').addEventListener('click', () => {
+        playSound('click');
+        levelSelectorContainer.classList.remove('hidden');
+        quizResultArea.classList.add('hidden');
+    });
 }
 
-// Start application
 window.addEventListener('DOMContentLoaded', initApp);

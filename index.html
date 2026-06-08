@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ひらがなであそぼう！ - たのしいひらがな学習ツール</title>
     <meta name="description" content="濁点のない、きれいなひらがな（清音）を、かわいいイラストと音声で楽しく学べる子供向けのウェブアプリです。">
     <!-- Google Fonts: Rounded Mplus for a friendly kids look -->
@@ -53,11 +53,34 @@
 
             <!-- 2. Word Quiz Mode View -->
             <section id="quiz-view" class="view-section">
-                <div class="quiz-container">
+                <!-- Level Selector (Visible only when in active quiz setup) -->
+                <div class="level-selector-container" id="level-selector-container">
+                    <p class="level-title">あそぶ むずかしさを えらんでね！</p>
+                    <div class="level-buttons">
+                        <button class="level-btn easy" data-level="easy">
+                            <span class="level-emoji">🟢</span>
+                            <span class="level-name">かんたん</span>
+                            <span class="level-desc">2つの もじ</span>
+                        </button>
+                        <button class="level-btn medium active" data-level="medium">
+                            <span class="level-emoji">🟡</span>
+                            <span class="level-name">ふつう</span>
+                            <span class="level-desc">3つの もじ</span>
+                        </button>
+                        <button class="level-btn hard" data-level="hard">
+                            <span class="level-emoji">🔴</span>
+                            <span class="level-name">むずかしい</span>
+                            <span class="level-desc">4つ以上の もじ</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Active Quiz Area -->
+                <div class="quiz-play-area hidden" id="quiz-play-area">
                     <!-- Quiz Score / Progress -->
                     <div class="quiz-header">
                         <div class="quiz-progress">だい <span id="quiz-current-num">1</span> もん / ぜん <span id="quiz-total-num">5</span> もん</div>
-                        <div class="quiz-score">💮 できたスタンプ: <span id="quiz-score-stars"></span></div>
+                        <div class="quiz-score">💮 スタンプ: <span id="quiz-score-stars"></span></div>
                     </div>
 
                     <!-- Main Quiz Card -->
@@ -81,8 +104,19 @@
 
                     <!-- Quiz Navigation / Control Buttons -->
                     <div class="quiz-controls">
-                        <button id="btn-skip-quiz" class="control-btn secondary-btn">つぎのもん ➡️</button>
+                        <button id="btn-back-to-levels" class="control-btn secondary-btn">⬅️ レベルを えらびなおす</button>
                         <button id="btn-reset-quiz" class="control-btn danger-btn">やりなおす 🔄</button>
+                    </div>
+                </div>
+
+                <!-- Quiz Completed Result Screen -->
+                <div class="quiz-result-area hidden" id="quiz-result-area">
+                    <div class="result-card">
+                        <div class="trophy-display">🏆</div>
+                        <h2 class="result-title">ぜんぶ できたよ！</h2>
+                        <p class="result-text">すごーい！ たいへん よくできました！ 💮</p>
+                        <div class="result-stars" id="result-stars-display">💮💮💮💮💮</div>
+                        <button id="btn-restart-game" class="restart-game-btn">もういっかい あそぶ！ 🔄</button>
                     </div>
                 </div>
             </section>
